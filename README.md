@@ -3,7 +3,7 @@
 Homelab Cluster landing page linking to self-hosted services.  
 It provides a central dashboard to access services like Keycloak, Hyperswitch, MinIO, and more.
 
-![Homepage](docs/img/homepage.png "Dashboard")
+![Homepage](https://raw.githubusercontent.com/a1mart/homepage/main/docs/img/homepage.png "Dashboard")
 
 ---
 
@@ -21,7 +21,7 @@ It provides a central dashboard to access services like Keycloak, Hyperswitch, M
 
 You can deploy the homepage directly from the Helm chart using ArgoCD:
 
-![ArgoCD](docs/img/argo.png "ArgoCD Deployment")
+![ArgoCD](https://raw.githubusercontent.com/a1mart/homepage/main/docs/img/argo.png "ArgoCD Deployment")
 
 - Sync the application from your Git repo
 - Automatically manage updates and rollbacks
