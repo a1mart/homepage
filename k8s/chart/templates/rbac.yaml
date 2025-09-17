@@ -43,11 +43,10 @@ rules:
 - apiGroups: ["metrics.k8s.io"]
   resources: ["nodes", "pods"]
   verbs: ["get", "list"]
-# Custom objects (for accessing CRs like cert-manager certificates)
-- apiGroups: ["*"]
-  resources: ["*"]
+# Cert-manager resources (if available)
+- apiGroups: ["cert-manager.io"]
+  resources: ["certificates", "issuers", "clusterissuers"]
   verbs: ["get", "list", "watch"]
-  resourceNames: []
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
