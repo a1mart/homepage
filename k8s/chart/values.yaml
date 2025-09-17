@@ -72,7 +72,7 @@ containerSecurityContext:
 # Health checks
 healthCheck:
   enabled: true
-  path: "/api/health"
+  path: "/"
   initialDelaySeconds: 30
   periodSeconds: 10
   timeoutSeconds: 3
