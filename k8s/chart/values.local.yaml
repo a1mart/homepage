@@ -5,6 +5,9 @@ image:
   tag: latest
   pullPolicy: Never
 
+imagePullSecrets:
+  - name: ghcr-secret
+
 service:
   type: NodePort
   port: 80

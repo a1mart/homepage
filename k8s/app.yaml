@@ -1,4 +1,3 @@
-# argocd-application.yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -7,39 +6,37 @@ metadata:
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  project: default
+  destination:
+    namespace: admin
+    server: https://kubernetes.default.svc
   source:
-    repoURL: 'https://github.com/a1mart/k8sdash.git'  # Use HTTPS for better compatibility
-    targetRevision: HEAD
     path: k8s/chart
+    repoURL: https://github.com/a1mart/homepage
+    targetRevision: HEAD
     helm:
       valueFiles:
         - values.yaml
       parameters:
-        # Environment-specific overrides
         - name: env.NEXTAUTH_URL
-          value: "https://k8s-dash.yourdomain.com"  # Update with your actual domain
+          value: http://localhost:3000
         - name: env.KEYCLOAK_ISSUER
-          value: "http://10.0.0.10:30786/realms/alm"
+          value: http://10.0.0.10:30786/realms/alm
         - name: env.NEXT_PUBLIC_KEYCLOAK_URL
-          value: "http://10.0.0.10:30786"
+          value: http://10.0.0.10:30786
         - name: env.NEXT_PUBLIC_KEYCLOAK_REALM
-          value: "alm"
+          value: alm
         - name: env.NEXT_PUBLIC_KEYCLOAK_CLIENT_ID
-          value: "k8s-dashboard"
-        # Secrets - consider using sealed-secrets or external-secrets instead
+          value: k8s-dashboard
         - name: secrets.NEXTAUTH_SECRET
-          value: "your-super-secure-32-character-secret-key-here"
+          value: your-random-secret-string
         - name: secrets.KEYCLOAK_CLIENT_ID
-          value: "k8s-dashboard"
+          value: k8s-dashboard
         - name: secrets.KEYCLOAK_CLIENT_SECRET
-          value: "your-keycloak-client-secret"
-        # Image tag (will be updated by CI/CD)
+          value: nPwN7HpfAEbW3D6heshPP85wOXWWQMHl
         - name: image.tag
-          value: "latest"
-  destination:
-    server: 'https://kubernetes.default.svc'
-    namespace: k8s-dashboard
+          value: latest
+  sources: []
+  project: default
   syncPolicy:
     automated:
       prune: true

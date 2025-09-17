@@ -6,6 +6,10 @@ image:
   tag: latest
   pullPolicy: IfNotPresent
 
+# Image pull secrets for private registries
+imagePullSecrets:
+  - name: ghcr-secret
+
 # Service Account for Kubernetes API access
 serviceAccount:
   create: true
