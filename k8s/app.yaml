@@ -18,7 +18,7 @@ spec:
         - values.yaml
       parameters:
         - name: env.NEXTAUTH_URL
-          value: http://localhost:3000
+          value: http://10.0.0.216 
         - name: env.KEYCLOAK_ISSUER
           value: http://10.0.0.10:30786/realms/alm
         - name: env.NEXT_PUBLIC_KEYCLOAK_URL
