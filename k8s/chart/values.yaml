@@ -1,0 +1,98 @@
+# values.yaml
+replicaCount: 1
+
+image:
+  repository: ghcr.io/a1mart/k8s-dash
+  tag: latest
+  pullPolicy: IfNotPresent
+
+# Service Account for Kubernetes API access
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
+
+# RBAC permissions for accessing Kubernetes API
+rbac:
+  create: true
+  clusterRole: true  # Set to false if you only need namespace-scoped access
+
+service:
+  type: LoadBalancer
+  port: 80
+  targetPort: 3000
+
+ingress:
+  enabled: false
+  hostname: "k8s-dash.example.com"
+  tlsSecretName: "k8s-dash-tls"
+  ingressClassName: "nginx"
+
+env:
+  # Remove KUBECONFIG since we'll use in-cluster config
+  NEXTAUTH_URL: "http://localhost:3000"  # Update this for your actual domain
+  KEYCLOAK_ISSUER: "http://10.0.0.10:30786/realms/alm"
+  NEXT_PUBLIC_KEYCLOAK_URL: "http://10.0.0.10:30786"
+  NEXT_PUBLIC_KEYCLOAK_REALM: "alm"
+  NEXT_PUBLIC_KEYCLOAK_CLIENT_ID: "k8s-dashboard"
+
+# Secrets - these should be provided via ArgoCD or external secret management
+secrets:
+  NEXTAUTH_SECRET: ""  # Will be overridden by ArgoCD
+  KEYCLOAK_CLIENT_SECRET: ""  # Will be overridden by ArgoCD
+  KEYCLOAK_CLIENT_ID: "k8s-dashboard"  # This can have a default value
+
+resources:
+  limits:
+    cpu: "500m"
+    memory: "512Mi"
+  requests:
+    cpu: "100m"
+    memory: "128Mi"
+
+# Security context
+securityContext:
+  runAsNonRoot: true
+  runAsUser: 1001
+  fsGroup: 1001
+  seccompProfile:
+    type: RuntimeDefault
+
+containerSecurityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false  # Next.js needs to write cache files
+  capabilities:
+    drop:
+      - ALL
+
+# Health checks
+healthCheck:
+  enabled: true
+  path: "/api/health"
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 3
+  failureThreshold: 3
+
+# Additional labels for better organization
+labels: {}
+
+# Additional annotations for pods
+podAnnotations: {}
+
+# Node selector for pod placement
+nodeSelector: {}
+
+# Tolerations for pod scheduling
+tolerations: []
+
+# Affinity rules for pod placement
+affinity: {}
+
+# Horizontal Pod Autoscaler (optional)
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 70
+  # targetMemoryUtilizationPercentage: 80

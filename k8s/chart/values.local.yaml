@@ -1,0 +1,42 @@
+replicaCount: 1
+
+image:
+  repository: k8sdash
+  tag: latest
+  pullPolicy: Never
+
+service:
+  type: NodePort
+  port: 80
+  targetPort: 3000
+  nodePort: 32080
+
+ingress:
+  enabled: false
+
+env:
+  NEXTAUTH_URL: "http://localhost:32080"
+  KEYCLOAK_ISSUER: "http://10.0.0.10:30786/realms/alm"
+  NEXT_PUBLIC_KEYCLOAK_URL: "http://10.0.0.10:30786"
+  NEXT_PUBLIC_KEYCLOAK_REALM: "alm"
+  NEXT_PUBLIC_KEYCLOAK_CLIENT_ID: "k8s-dashboard"
+
+secrets:
+  NEXTAUTH_SECRET: "your-local-test-secret-key-32chars"
+  KEYCLOAK_CLIENT_ID: "k8s-dashboard"
+  KEYCLOAK_CLIENT_SECRET: "your-test-client-secret"
+
+resources:
+  limits:
+    cpu: "250m"
+    memory: "256Mi"
+  requests:
+    cpu: "50m"
+    memory: "64Mi"
+
+rbac:
+  create: true
+  clusterRole: true
+
+serviceAccount:
+  create: true
