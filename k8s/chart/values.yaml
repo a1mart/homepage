@@ -18,8 +18,8 @@ serviceAccount:
 
 # RBAC permissions for accessing Kubernetes API
 rbac:
-  create: true
-  clusterRole: true  # Set to false if you only need namespace-scoped access
+  create: false
+  clusterRole: false  # Set to false if you only need namespace-scoped access
 
 service:
   type: LoadBalancer
