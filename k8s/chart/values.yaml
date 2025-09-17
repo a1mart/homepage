@@ -2,7 +2,7 @@
 replicaCount: 1
 
 image:
-  repository: ghcr.io/a1mart/k8s-dash
+  repository: ghcr.io/a1mart/homepage
   tag: latest
   pullPolicy: IfNotPresent
 
